@@ -1,0 +1,8 @@
+---
+- name: Restart jenkins service to pick up new agents
+  become: true
+  systemd_service:
+    name: jenkins
+    state: restarted
+    enabled: true
+  listen: "restart jenkins"

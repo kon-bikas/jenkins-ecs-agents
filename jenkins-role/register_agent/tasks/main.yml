@@ -1,0 +1,11 @@
+# put jcasc file to the default location ansible JCasC plugin looks for
+---
+- name: Create JCasC file
+  become: true
+  become_user: jenkins
+  template:
+    src: jcasc.yaml.j2
+    dest: /var/lib/jenkins/jenkins.yaml
+    mode: '0644'
+  notify: "restart jenkins"
+
