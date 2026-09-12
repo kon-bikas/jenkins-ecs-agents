@@ -1,0 +1,26 @@
+
+jenkins:
+  log:
+    recorders:
+      - loggers:
+          - level: "ALL"
+            name: "com.cloudbees.jenkins.plugins.amazonecs"
+        name: "ecs-logger"
+  slaveAgentPort: {{ jenkins_tunnel_port }}
+  clouds:
+{% for item in agents %}
+    - ecs:
+        cluster: "{{ item.ecs_cluster }}"
+        jenkinsUrl: "{{ jenkins_url }}"
+        name: "{{ item.name }}"
+        regionName: "eu-west-3"
+        templates:
+          - label: "{{ item.label }}"
+            taskDefinitionOverride: "{{ item.task_definition }}"
+            agentContainerName: "{{ item.task_container_name }}"
+            launchType: "FARGATE"
+            assignPublicIp: true
+            subnets: "{{ item.subnets }}"
+            securityGroups: "{{ item.security_groups }}"
+        tunnel: "{{ jenkins_tunnel }}"
+{% endfor %}
