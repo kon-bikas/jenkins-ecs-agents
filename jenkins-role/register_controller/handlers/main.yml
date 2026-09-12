@@ -1,0 +1,17 @@
+---
+- name: Make suer Jenkins service is running and enabled after installed
+  become: true
+  systemd_service:
+    name: jenkins
+    state: started
+    enabled: true
+  listen: "start jenkins"
+
+- name: Restart jenkins service to pick up new plugins
+  become: true
+  systemd_service:
+    name: jenkins
+    state: restarted
+    enabled: true
+  listen: "restart jenkins"
+

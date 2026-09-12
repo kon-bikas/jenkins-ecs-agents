@@ -1,0 +1,35 @@
+---
+- name: install java runtime and fontconfig
+  become: true
+  apt:
+    name:
+      - fontconfig
+      - openjdk-21-jre
+    state: present
+    update_cache: true
+
+- name: Install jenkins key
+  become: true
+  get_url:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+    dest: /etc/apt/keyrings/jenkins-keyring.asc
+    mode: '0644'
+
+- name: Add Jenkins repo
+  become: true
+  lineinfile:
+    path: /etc/apt/sources.list.d/jenkins.list
+    line: "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+    create: true
+    mode: '0644'
+
+- name: Install jenkins package after updating apt cache with new jenkins repo
+  become: true
+  apt:
+    name: jenkins
+    state: present
+    update_cache: true
+  notify: start jenkins
+
+- name: Flash jenkins service handler
+  meta: flush_handlers
