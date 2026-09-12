@@ -1,0 +1,14 @@
+---
+  - name: Registering cicd resource
+    hosts: jenkins_controller 
+
+    tasks:
+      - name: Registering jenkins controller
+        import_role:
+          name: register_controller
+        tags: controller
+
+      - name: Registering jenkins agent
+        import_role:
+          name: register_agent
+        tags: agent
