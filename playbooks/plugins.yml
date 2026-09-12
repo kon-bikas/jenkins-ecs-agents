@@ -1,0 +1,27 @@
+---
+  - name: Installing jenkins plugins
+    hosts: jenkins_controller
+    become: true
+    become_user: jenkins
+  
+    tasks:
+      - name: Install JCasC and aws-fargate plugins
+        community.general.jenkins_plugin:
+          name: "{{ item }}"
+          state: present
+          url_username: "{{ jenkins_username }}"
+          url_password: "{{ jenkins_password }}"
+          url: http://localhost:8080
+        loop:
+          - amazon-ecs
+          - configuration-as-code
+        notify: restart jenkins
+
+    handlers:
+      - name: Restaring jenkins to pick up new plugins
+        become: true
+        systemd_service:
+          name: jenkins
+          state: restarted
+          enabled: true
+        listen: "restart jenkins"
