@@ -1,0 +1,45 @@
+[
+      {
+            "name": "jenkins-agent-container",
+            "image": "${cont_image}",
+            "cpu": ${cont_cpu},
+            "memory": ${cont_memory},
+            "portMappings": [
+                  {
+                        "name": "jenkins-agent-80-tcp",
+                        "containerPort": 80,
+                        "hostPort": 80,
+                        "protocol": "tcp",
+                        "appProtocol": "http"
+                  },
+                  {
+                        "name": "jenkins-agent-22-tcp",
+                        "containerPort": 22,
+                        "hostPort": 22,
+                        "protocol": "tcp"
+                  },
+                  {
+                        "name": "jenkins-agent-443-tcp",
+                        "containerPort": 443,
+                        "hostPort": 443,
+                        "protocol": "tcp",
+                        "appProtocol": "http"
+                  }
+
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                  "logDriver": "awslogs",
+                  "options": {
+                        "awslogs-create-group": "true",
+                        "awslogs-group": "/ecs/${cw_name}/logs",
+                        "awslogs-region": "eu-west-3",
+                        "awslogs-stream-prefix": "ecs"
+                  }
+            },
+            "systemControls": []
+      }
+]
