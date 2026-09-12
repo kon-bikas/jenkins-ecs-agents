@@ -1,0 +1,14 @@
+agents:
+  - name: fargate-cloud
+    label: "fargate-agent"
+    subnets: subnet-020b488a8d6851690
+    ecs_cluster: arn:aws:ecs:eu-west-3:138465306868:cluster/jenkins_ecs
+    security_groups: sg-0a30d397e703b5c93
+    task_definition: image-builder
+    task_container_name: jenkins-agent-container
+
+jenkins_url: "http://51.44.245.162:8080/"
+jenkins_tunnel: "51.44.245.162:5000"
+jenkins_tunnel_port: 5000
+jenkins_username: "admin"
+jenkins_password: "admin123"
