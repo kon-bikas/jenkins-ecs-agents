@@ -4,10 +4,6 @@ variable "cloudwatch_name" {
   default     = "jenkins-logs"
 }
 
-variable "task_role_arn" {
-  type    = string
-}
-
 variable "agent_tunnel_port" {
   description = "Port that the fargate agent will reach to communicate with the jenkins controller"
   type        = number
